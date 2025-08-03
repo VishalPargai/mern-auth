@@ -1,0 +1,87 @@
+.main-div {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #c3c8ff 0%, #8878d9 100%);
+  display: flex;
+  flex-direction: column;
+}
+.verify-box {
+  background: #17192b;
+  width: 350px;
+  margin: 70px auto 0 auto;
+  border-radius: 15px;
+  box-shadow: 0px 12px 36px rgba(60, 75, 180, 0.1);
+  padding: 36px 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 40vh;
+}
+
+.verify-box h2 {
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+}
+
+.subtext {
+  color: #b6b8c8;
+  margin-bottom: 26px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.otp-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.otp-input-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.otp-input {
+  width: 50px;
+  height: 63px;
+  margin: 0 6px;
+  border-radius: 7px;
+  border: none;
+  background: #23243a;
+  color: #fff;
+  font-size: 1.49rem;
+  text-align: center;
+  outline: none;
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.05);
+  letter-spacing: 1px;
+  transition: background 0.16s;
+}
+
+.otp-input:focus {
+  background: #292b42;
+  border: 1.5px solid #7e89f0;
+}
+
+.verify-btn {
+  width: 100%;
+  background: linear-gradient(92deg, #5a6afd, #6e41e2);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 0 11px 0;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 0 6px #23243a05;
+}
+
+.verify-btn:hover {
+  background: linear-gradient(90deg, #6b85fd, #6d43f9);
+}

@@ -1,0 +1,70 @@
+.Nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.Nav button {
+  font-size: 1.2rem;
+  width: 9rem;
+  padding: 6px 2px;
+  border-radius: 40px;
+}
+.Nav button:hover {
+  background-color: rgb(215, 215, 215);
+}
+.Nav .icon {
+  position: relative;
+  top: 3px;
+}
+.user-logo {
+  font-size: 2rem;
+  text-align: center;
+  position: relative;
+  right: 23px;
+  width: 44px;
+  cursor: pointer;
+  height: 45px;
+  border-radius: 100px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(3, 3, 3);
+  transition: 0.2s;
+}
+
+.user-logo .verify {
+  display: none;
+  position: absolute;
+  top: 110%; 
+ left: -34px;
+  transform: translateX(-50%);
+  background: white;
+  color: black;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  min-width: 140px;
+  z-index: 10;
+  padding: 8px 0;
+  font-size: 1rem;
+}
+
+/* Show on hover */
+.user-logo:hover .verify {
+  display:block;
+}
+
+/* Style the menu items */
+.user-logo .verify ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.user-logo .verify li {
+  padding: 8px 24px;
+  transition: background 0.15s;
+  text-align: left;
+}
+
+.user-logo .verify li:hover {
+  background: linear-gradient(135deg, #5a5a5f 0%, #dddbe8 100%);
+}
