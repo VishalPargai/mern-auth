@@ -12,23 +12,28 @@ const port = process.env.PORT || 4000;
 // Connect to MongoDB
 connetDB();
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = [
+  "http://localhost:5173", // for local development
+  "https://mern-auth-frontend-jijf.onrender.com", // your deployed frontend on Render
+];
 
 // CORS configuration with dynamic origin and credentials support
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin, e.g., Postman or mobile apps (optional)
-    if (!origin) return callback(null, true);
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin, e.g., Postman or mobile apps (optional)
+      if (!origin) return callback(null, true);
 
-    // Check if request origin is in allowed list
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true, // Allows cookies and credentials to be sent cross-origin
-}));
+      // Check if request origin is in allowed list
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allows cookies and credentials to be sent cross-origin
+  })
+);
 
 app.use(express.json()); // Parse JSON request bodies
 app.use(cookieParser()); // Parse cookies
