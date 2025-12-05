@@ -193,7 +193,7 @@ export const isAuthenticated = async (req, res) => {
 };
 
 //for password reset
-export const sendRestOtp = async (req, res) => {
+export const sendResetOtp = async (req, res) => {
   const { email } = req.body;
 
   if (!email) {

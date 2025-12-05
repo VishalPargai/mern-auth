@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { AppContent } from "../context/AppContext.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 const ResetPassword = () => {
   const { backendurl } = useContext(AppContent);
   axios.defaults.withCredentials = true;
@@ -14,26 +15,28 @@ const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
-  const [isEmailSent, setIsEmailSent] = useState("");
+  // Changed from "" to false for correct rendering logic
+  const [isEmailSent, setIsEmailSent] = useState(false);
   const [otp, setOtp] = useState(0);
   const [isOtpSubmitted, setIsOtpSubmitted] = useState(false);
 
   const inputRefs = React.useRef([]);
-  //func for auto frd space while typing
+
+  // func for auto focus while typing
   const handleInput = (e, index) => {
     if (e.target.value.length > 0 && index < inputRefs.current.length - 1) {
       inputRefs.current[index + 1].focus();
     }
   };
 
-  //func for backspace
+  // func for backspace focus shift
   const handleBackSpace = (e, index) => {
     if (e.key === "Backspace" && e.target.value === "" && index > 0) {
       inputRefs.current[index - 1].focus();
     }
   };
 
-  //func for Paste OTP
+  // func for Paste OTP
   const handlePaste = (e) => {
     const paste = e.clipboardData.getData("text");
     const pasteArray = paste.split("");
@@ -44,7 +47,7 @@ const ResetPassword = () => {
     });
   };
 
-  //for submiting email (1st from)
+  // for submitting email (1st form)
   const onSubmitEmail = async (e) => {
     e.preventDefault();
     try {
@@ -55,13 +58,17 @@ const ResetPassword = () => {
         }
       );
       data.success ? toast.success(data.message) : toast.error(data.message);
-      data.success && setIsEmailSent(true);
+
+      // Correctly set to boolean true to trigger UI change
+      if (data.success) {
+        setIsEmailSent(true);
+      }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
-  //for OTP (2nd from)
+  // for OTP submission (2nd form)
   const onSubmitOTP = async (e) => {
     e.preventDefault();
     const otpArray = inputRefs.current.map((e) => e.value);
@@ -69,7 +76,7 @@ const ResetPassword = () => {
     setIsOtpSubmitted(true);
   };
 
-  //for Sumbit OTP (3rd from)
+  // for submitting new password (3rd form)
   const onSubmitNewPassword = async (e) => {
     e.preventDefault();
     try {
@@ -77,10 +84,10 @@ const ResetPassword = () => {
         backendurl + "/api/auth/reset-password",
         { email, otp, newPassword }
       );
-      data.success?toast.success(data.message) : toast.error(data.message)
-      data.success && navigate("/")
+      data.success ? toast.success(data.message) : toast.error(data.message);
+      data.success && navigate("/");
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
@@ -90,13 +97,12 @@ const ResetPassword = () => {
         <FaAutoprefixer className="logo" onClick={() => navigate("/")} />
       </nav>
 
-      {/* Rest password form */}
+      {/* Reset password form */}
       {!isEmailSent && (
         <div className="form-box-Rs">
           <h2>Reset Password</h2>
           <p className="subtitle">Enter your registered email address</p>
 
-          {/* form starts from here */}
           <form onSubmit={onSubmitEmail}>
             <div className="input-icon-wrapper">
               <CiMail className="input-icon" />
@@ -114,7 +120,6 @@ const ResetPassword = () => {
       )}
 
       {/* OTP Enter FORM */}
-
       {!isOtpSubmitted && isEmailSent && (
         <div className="verify-box">
           <h2>Reset password OTP</h2>
@@ -153,7 +158,7 @@ const ResetPassword = () => {
             <div className="input-icon-wrapper">
               <CiLock className="input-icon" />
               <input
-                type="text"
+                type="text" // optionally you can change this to "password" for hidden input
                 placeholder="Password"
                 required
                 value={newPassword}
@@ -169,5 +174,3 @@ const ResetPassword = () => {
 };
 
 export default ResetPassword;
-
-// 931100 otp
