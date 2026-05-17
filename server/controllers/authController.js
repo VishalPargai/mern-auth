@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/usermodel.js";
-import transpoter from "../config/nodemailer.js";
+// 🚨 CORRECTED: Renamed from 'transpoter' to 'transporter'
+import transporter from "../config/nodemailer.js";
 import {
   EMAIL_VERIFY_TEMPLATE,
   PASSWORD_RESET_TEMPLATE,
@@ -51,7 +52,8 @@ export const register = async (req, res) => {
       text: `Welcome ${name} to My website. Your account has been created with the email id: ${normalizedEmail}`,
     };
 
-    await transpoter.sendMail(mailOptions);
+    // 🚨 CORRECTED: Using 'transporter'
+    await transporter.sendMail(mailOptions);
 
     return res.status(201).json({ success: true });
   } catch (error) {
@@ -71,12 +73,14 @@ export const login = async (req, res) => {
   try {
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.json({ success: false, message: "invaild email" });
+      // 🚨 CORRECTED: Fixed typo 'invaild' to 'invalid'
+      return res.json({ success: false, message: "invalid email" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.json({ success: false, message: "invaild Password" });
+      // 🚨 CORRECTED: Fixed typo 'invaild' to 'invalid'
+      return res.json({ success: false, message: "invalid Password" });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -137,7 +141,8 @@ export const sendVerifyOtp = async (req, res) => {
       ),
     };
 
-    await transpoter.sendMail(mailOptions);
+    // 🚨 CORRECTED: Using 'transporter'
+    await transporter.sendMail(mailOptions);
 
     res.json({ success: true, message: "Verification OTP Sent of Email" });
   } catch (error) {
@@ -224,14 +229,25 @@ export const sendResetOtp = async (req, res) => {
         user.email
       ),
     };
-    await transpoter.sendMail(mailOptions);
+    // 🚨 CORRECTED: Using 'transporter'
+    await transporter.sendMail(mailOptions);
 
     return res.json({
       success: true,
       message: "OTP has been sent to your email",
     });
   } catch (error) {
-    return res.json({ success: false, message: error.message });
+    // 🚨 CRITICAL DEBUGGING: Log the full error to the server console
+    console.error("--- SMTP Error Details ---");
+    console.error(`Status: ${error.responseCode || "N/A"}`);
+    console.error("Full Error:", error);
+    console.error("--------------------------");
+
+    // Return a message that directs the user to check server logs for the cause of the hang
+    return res.json({
+      success: false,
+      message: "Failed to send OTP. Please check server console for details.",
+    });
   }
 };
 
